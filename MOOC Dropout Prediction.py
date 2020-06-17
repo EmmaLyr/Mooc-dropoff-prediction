@@ -2,7 +2,7 @@
 import pandas as pd
 
 ##read the datasets
-enrollment = pd.read_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/enrollment_list.csv")
+enrollment = pd.read_csv("/Users/Emma/Desktop/Project/enrollment_list.csv")
 enrollment.head()
 
 useridn = enrollment.groupby("user_id").count()
@@ -12,7 +12,7 @@ course_num = useridn.drop('reng',1)
 feature_data=enrollment.merge(course_num,how='left',on='user_id')
 
 
-activity = pd.read_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/activity_log.csv")
+activity = pd.read_csv("/Users/Emma/Desktop/Project/activity_log.csv")
 activity.head()
 
 problem_freq = activity[activity['event']=='problem'].groupby('enrollment_id').count()
@@ -57,11 +57,11 @@ video_freq.columns=['video_freq','reng','enrollment_id']
 video_freq = video_freq.drop('reng',1)
 feature_data=feature_data.merge(video_freq,how='left',on='enrollment_id')
 
-duration = pd.read_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/duration.csv")
+duration = pd.read_csv("/Users/Emma/Desktop/Project/duration.csv")
 duration.head()
 feature_data=feature_data.merge(duration,how='left',on='enrollment_id')
 
-train = pd.read_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/train_label.csv")
+train = pd.read_csv("/Users/Emma/Desktop/Project/train_label.csv")
 train.head()
 feature_data=feature_data.merge(train,how='left',on='enrollment_id')
 
@@ -125,9 +125,9 @@ feature_data=feature_data=feature_data.merge(train,how='left',on='enrollment_id'
 
 data_use=feature_data.head(72325)
 data_predict=feature_data.tail(48217)
-feature_data.to_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/feature_data.csv", sep=',')
-data_use.to_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/data_use.csv", sep=',')
-data_predict.to_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/data_predict.csv", sep=',')
+feature_data.to_csv("/Users/Emma/Desktop/Project/feature_data.csv", sep=',')
+data_use.to_csv("/Users/Emma/Desktop/Project/data_use.csv", sep=',')
+data_predict.to_csv("/Users/Emma/Desktop/Project/data_predict.csv", sep=',')
 
 
 
@@ -146,7 +146,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier
 
-data_use=pd.read_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/data_use.csv")
+data_use=pd.read_csv("/Users/Emma/Desktop/Project/data_use.csv")
 index=rd.sample(range(1,72325), 43395)
 # print(index)
 X_use=np.array(data_use.iloc[:,[3,4,5,6,7,8,10,11,13,14,18,20]])
@@ -190,7 +190,7 @@ print(loos2)
 
 
 # #Get predictions
-# data_predict = pd.read_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/data_predict.csv")
+# data_predict = pd.read_csv("/Users/Emma/Desktop/Project/data_predict.csv")
 # X_pre=data_predict.iloc[:,[2,4,7,8,9,13,14,15,16,17,18,19]]
 # Y_pre=model_rfc.predict_proba(X_pre)[:,1]
 #
@@ -198,10 +198,10 @@ print(loos2)
 # # Y_pre[np.where((Y_pre > 0.2)&(Y_pre < 0.5))]=0.5
 # # Y_pre[np.where(Y_pre > 0.7)]=0.999
 #
-# submission_rfc= pd.read_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/sample_submission.csv")
+# submission_rfc= pd.read_csv("/Users/Emma/Desktop/Project/sample_submission.csv")
 # submission_rfc['dropout_prob']=Y_pre
 # print(submission_rfc)
-# submission_rfc.to_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/submission_rfc.csv", sep=',')
+# submission_rfc.to_csv("/Users/Emma/Desktop/Project/submission_rfc.csv", sep=',')
 
 
 
@@ -209,7 +209,7 @@ print(loos2)
 
 ###############with ratio
 
-data_use=pd.read_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/data_use.csv")
+data_use=pd.read_csv("/Users/Emma/Desktop/Project/data_use.csv")
 index=rd.sample(range(1,72325), 43395)
 # print(index)
 X_use=np.array(data_use.iloc[:,[3,4,5,6,7,8,10,11,13,16,18,19,20]])
@@ -278,7 +278,7 @@ print(loos2)
 
 
 #Get predictions
-data_predict = pd.read_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/data_predict.csv")
+data_predict = pd.read_csv("/Users/Emma/Desktop/Project/data_predict.csv")
 X_pre=data_predict.iloc[:,[3,4,5,6,7,8,10,11,13,16,18,19,20]]
 Y_pre1=model_gbc.predict_proba(X_pre)[:,1]
 Y_pre2=model_logi.predict_proba(X_pre)[:,1]
@@ -290,10 +290,10 @@ Y_pre4[np.where((Y_pre1 < 0.1) & (Y_pre2 < 0.1) & (Y_pre3 < 0.1))]=0.001
 # Y_pre1[np.where((Y_pre1 < 0.8) & (Y_pre1 > 0.1) & (Y_pre2 < 0.8) & (Y_pre2 > 0.1) & (Y_pre3 < 0.8) & (Y_pre3 > 0.1))]=max(Y_pre1,Y_pre2,Y_pre3)
 Y_pre4[np.where((Y_pre1 > 0.9) & (Y_pre2 > 0.9) & (Y_pre3 > 0.9))]=0.999
 
-submission_voting= pd.read_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/sample_submission.csv")
+submission_voting= pd.read_csv("/Users/Emma/Desktop/Project/sample_submission.csv")
 submission_voting['dropout_prob']=Y_pre4
 print(submission_voting)
-submission_voting.to_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/submission_voting2.csv", sep=',')
+submission_voting.to_csv("/Users/Emma/Desktop/Project/submission_voting2.csv", sep=',')
 
 
 
@@ -338,7 +338,7 @@ for num_split in range(17,28):
         print(num_split,num_nb, loos)
 
         # #Get predictions
-        # data_predict = pd.read_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/data_predict.csv")
+        # data_predict = pd.read_csv("/Users/Emma/Desktop/Project/data_predict.csv")
         # X_pre=data_predict.iloc[:,[4,7,8,9,13,14,15,16,17,18,19]]
         # Y_pre=model_rfc.predict_proba(X_pre)[:,1]
         #
@@ -346,10 +346,10 @@ for num_split in range(17,28):
         # # Y_pre[np.where((Y_pre > 0.2)&(Y_pre < 0.5))]=0.5
         # # Y_pre[np.where(Y_pre > 0.7)]=0.999
         #
-        # submission_rfc= pd.read_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/sample_submission.csv")
+        # submission_rfc= pd.read_csv("/Users/Emma/Desktop/Project/sample_submission.csv")
         # submission_rfc['dropout_prob']=Y_pre
         # print(submission_rfc)
-        # submission_rfc.to_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/submission_rfc.csv", sep=',')
+        # submission_rfc.to_csv("/Users/Emma/Desktop/Project/submission_rfc.csv", sep=',')
     # for num_split in range(2,10):
 
 
@@ -373,18 +373,18 @@ for num_split in range(17,28):
 #     #print(len(data_use1))
 #     i=i+1
 # #print (drop_rate)
-# feature_data = pd.read_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/feature_data.csv")
+# feature_data = pd.read_csv("/Users/Emma/Desktop/Project/feature_data.csv")
 # feature_data=feature_data.merge(drop_rate,how="left",on="course_id")
 # columnsTitles=["drop_rate","dropout_prob"]
 # feature_data=feature_data.reindex(columns=columnsTitles)
 # data_use=data_use.merge(drop_rate,how="left",on="course_id")
 # data_use=data_use.reindex(columns=columnsTitles)
-# feature_data.to_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/feature_data.csv")
-# data_use.to_csv("/Users/Emma/Desktop/Lehigh/CSE447/Project/data_use.csv")
+# feature_data.to_csv("/Users/Emma/Desktop/Project/feature_data.csv")
+# data_use.to_csv("/Users/Emma/Desktop/Project/data_use.csv")
 
 
 #import csv
-#with open('/Users/Emma/Desktop/Lehigh/CSE447/Project/train_label.csv') as train_label:
+#with open('/Users/Emma/Desktop/Project/train_label.csv') as train_label:
 #     train = csv.reader(train_label, delimiter=',')
 #     print (train)
 
@@ -398,7 +398,7 @@ for num_split in range(17,28):
 #        drops.append(drop)
 
 
-#with open('/Users/Emma/Desktop/Lehigh/CSE447/Project/enrollment_list.csv') as enrollment_list:
+#with open('/Users/Emma/Desktop/Project/enrollment_list.csv') as enrollment_list:
 #    enrollment = csv.reader(enrollment_list, delimiter=',')
 #    print (enrollment)
 #    for row in enrollment:
@@ -406,7 +406,7 @@ for num_split in range(17,28):
 #        course = row[2]
 
 
-#with open('/Users/Emma/Desktop/Lehigh/CSE447/Project/activity_log.csv') as activity_log:
+#with open('/Users/Emma/Desktop/Project/activity_log.csv') as activity_log:
 #    activity = csv.reader(activity_log, delimiter=',')
 #    print (activity)
 
@@ -426,12 +426,6 @@ for num_split in range(17,28):
 #        enrollid = row[0]
 #        event = row[2]
 #        for i in range(len(enrollid)):
-
-
-
-
-
-
 
 
 ##    for row in train:
