@@ -204,9 +204,6 @@ print(loos2)
 # submission_rfc.to_csv("/Users/Emma/Desktop/Project/submission_rfc.csv", sep=',')
 
 
-
-
-
 ###############with ratio
 
 data_use=pd.read_csv("/Users/Emma/Desktop/Project/data_use.csv")
@@ -271,9 +268,6 @@ loos1=metrics.log_loss(Y_validate,Y_validate_pre4)
 print(loos1)
 loos2=metrics.log_loss(Y_test,Y_test_pre4)
 print(loos2)
-
-
-
 
 
 
@@ -351,10 +345,6 @@ for num_split in range(17,28):
         # print(submission_rfc)
         # submission_rfc.to_csv("/Users/Emma/Desktop/Project/submission_rfc.csv", sep=',')
     # for num_split in range(2,10):
-
-
-
-
 
 
 
